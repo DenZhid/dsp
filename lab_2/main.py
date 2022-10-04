@@ -1,17 +1,19 @@
+from matplotlib import pyplot as plt
+
 from utils.signal_receiver import SignalReceiver
-import matplotlib.pyplot as plt
 
 
+# Variant 61: Fn = 383 Fm = 14 K = 128
 def main():
     signal_receiver = SignalReceiver(
-        freq_n=360, # несущая частота
-        freq_m=10, # частота модуляции
-        phase_n=0, # фаза несущей частоты
-        phase_m=0, # фаза частоты модуляции
-        modulation_factor=1, # глубина модуляции
-        quantization=512, # число уровней квантования
+        freq_n=383, # несущая частота (Fn)
+        freq_m=10, # частота модуляции (Fm)
+        phase_n=0, # фаза несущей частоты (произвольная)
+        phase_m=0, # фаза частоты модуляции (произвольная)
+        modulation_factor=1, # глубина модуляции (1)
+        quantization=512, # число уровней квантования (K)
         k_disc=8, # отношение частоты дискретизации к частоте несущей
-        t_end=1.6 # время окончания модуляции сигнала
+        t_end=2.0 # время окончания модуляции сигнала
     )
     # Генерация сигнала
     t, mod_sig = signal_receiver.generate_signal()
@@ -66,6 +68,7 @@ def main():
     plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
     plt.xlabel('t, с.')
     plt.show()
+
 
 
 if __name__ == '__main__':
