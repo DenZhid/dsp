@@ -51,3 +51,11 @@ class SignalReceiver:
             detection_i = math.sqrt(math.pow(sin_out_butter[i], 2) + math.pow(cos_out_butter[i], 2))
             detection.append(detection_i)
         return detection
+
+    # @property
+    # def freq_d(self):
+    #     return self.freq_d
+    #
+    # @freq_d.setter
+    # def freq_d(self, value):
+    #     self._freq_d = value
