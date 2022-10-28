@@ -37,21 +37,6 @@ class SignalReceiver:
             disc_mod_sig.append(disc_mod_sig_i)
         return disc_mod_sig
 
-    def butter_filter(self, n, disc_mod_sig, freq, coeff):
-        detection = []
-        sin_out = []
-        cos_out = []
-        for i in range(n):
-            sin_out.append(disc_mod_sig[i] * math.sin((i - 1) * 2 * math.pi * freq / self.freq_d))
-            cos_out.append(disc_mod_sig[i] * math.cos((i - 1) * 2 * math.pi * freq / self.freq_d))
-        [b, a] = butter(2, self.freq_m * self.k_disc / (2 * coeff * self.freq_d))
-        sin_out_butter = lfilter(b, a, sin_out)
-        cos_out_butter = lfilter(b, a, cos_out)
-        for i in range(n):
-            detection_i = math.sqrt(math.pow(sin_out_butter[i], 2) + math.pow(cos_out_butter[i], 2))
-            detection.append(detection_i)
-        return detection
-
     def butter_filter(self, n, disc_mod_sig, freq, coeff, filter_n):
         detection = []
         sin_out = []

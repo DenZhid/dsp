@@ -39,7 +39,7 @@ def main():
     plt.show()
 
     # Перенос частоты несущей, получение исходного сигнала
-    signal = signal_receiver.butter_filter(duration, disc_signal, freq=360, coeff=1)
+    signal = signal_receiver.butter_filter(duration, disc_signal, freq=360, coeff=1, filter_n=2)
 
     # Построение результата первой фильтрации, исходный сигнал
     plt.plot(t, signal)
@@ -49,7 +49,7 @@ def main():
     plt.show()
 
     # Второе пропускание сигнала через фильтр Баттерворта
-    signal_detection = signal_receiver.butter_filter(duration, signal, freq=10, coeff=8)
+    signal_detection = signal_receiver.butter_filter(duration, signal, freq=10, coeff=8, filter_n=2)
 
     # Построение результата второй фильтрации
     plt.plot(t, signal_detection)
