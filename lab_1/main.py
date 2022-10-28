@@ -8,14 +8,14 @@ import matplotlib.pyplot as plt
 
 def main():
     signal_receiver = SignalReceiver(
-        freq_n=360, # несущая частота
-        freq_m=10, # частота модуляции
-        phase_n=0, # фаза несущей частоты
-        phase_m=0, # фаза частоты модуляции
-        modulation_factor=1, # глубина модуляции
-        quantization=512, # число уровней квантования
-        k_disc=8, # отношение частоты дискретизации к частоте несущей
-        t_end=1.6 # время окончания модуляции сигнала
+        freq_n=360,  # несущая частота
+        freq_m=10,  # частота модуляции
+        phase_n=0,  # фаза несущей частоты
+        phase_m=0,  # фаза частоты модуляции
+        modulation_factor=1,  # глубина модуляции
+        quantization=512,  # число уровней квантования
+        k_disc=8,  # отношение частоты дискретизации к частоте несущей
+        t_end=1.6  # время окончания модуляции сигнала
     )
     # Генерация сигнала
     t, gen_signal = signal_receiver.generate_signal()
@@ -121,18 +121,18 @@ def main():
     ans_mod_signal, fc1_mod_signal, fc2_mod_signal, fc_mod_signal = fta(freq_array, fourier_amp_mod_signal)
 
     print(
-          f"Для исходного сигнала: \n"
-          f"ans={ans_gen_signal}\n"
-          f"Fc1={fc1_gen_signal}\n"
-          f"Fc2={fc2_gen_signal}\n"
-          f"Fc={fc_gen_signal}\n"
+        f"Для исходного сигнала: \n"
+        f"ans={ans_gen_signal}\n"
+        f"Fc1={fc1_gen_signal}\n"
+        f"Fc2={fc2_gen_signal}\n"
+        f"Fc={fc_gen_signal}\n"
     )
     print(
         f"Для зашумленного  сигнала: \n"
-          f"ans={ans_mod_signal}\n"
-          f"Fc1={fc1_mod_signal}\n"
-          f"Fc2={fc2_mod_signal}\n"
-          f"Fc={fc_mod_signal}\n"
+        f"ans={ans_mod_signal}\n"
+        f"Fc1={fc1_mod_signal}\n"
+        f"Fc2={fc2_mod_signal}\n"
+        f"Fc={fc_mod_signal}\n"
     )
 
 
