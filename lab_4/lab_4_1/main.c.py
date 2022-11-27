@@ -1,8 +1,8 @@
-import math
+import random
+
+import numpy as np
 
 from utils.signal_receiver import SignalReceiver
-from utils.fft import custom_fft
-from utils.fta import fta
 import matplotlib.pyplot as plt
 
 
@@ -40,104 +40,173 @@ def main():
     plt.show()
 
     # Перенос частоты несущей, получение исходного сигнала
-    signal2 = signal_receiver.butter_filter(duration, disc_signal, freq=383, coeff=1, filter_n=2)
-    signal4 = signal_receiver.butter_filter(duration, disc_signal, freq=383, coeff=1, filter_n=4)
-    signal6 = signal_receiver.butter_filter(duration, disc_signal, freq=383, coeff=1, filter_n=6)
-
+    signal = signal_receiver.butter_filter(duration, disc_signal, freq=383, coeff=1, filter_n=6)
 
     # Построение результата первой фильтрации, исходный сигнал
-    plt.plot(t, signal2, label='Второй порядок', color='cornflowerblue')
-    plt.plot(t, signal4, label='Четвертый порядок', color='darkorange')
-    plt.plot(t, signal6, label='Шестой порядок', color='darkorange')
+    plt.plot(t, signal)
     plt.title('Результат первого переноса частоты')
     plt.ylabel('А, В')
     plt.xlabel('t, с.')
-    plt.legend(loc='lower right')
     plt.show()
 
     # Второе пропускание сигнала через фильтр Баттерворта
-    signal_detection2 = signal_receiver.butter_filter(duration, signal2, freq=14, coeff=8, filter_n=2)
-    signal_detection4 = signal_receiver.butter_filter(duration, signal4, freq=14, coeff=8, filter_n=4)
-    signal_detection6 = signal_receiver.butter_filter(duration, signal6, freq=14, coeff=8, filter_n=6)
+    signal_detection = signal_receiver.butter_filter(duration, signal, freq=14, coeff=8, filter_n=6)
 
+    N2 = len(signal_detection[2080:])
+    lower_bound = ([sum(signal_detection[2080:]) / N2 * 0.708] * duration)[0]
 
-    N2 = len(signal_detection2[2080:])
-    lower_bound2 = ([sum(signal_detection2[2080:]) / N2 * 0.708] * duration)[0]
-    lower_bound4 = ([sum(signal_detection4[2080:]) / N2 * 0.708] * duration)[0]
-    lower_bound6 = ([sum(signal_detection6[2080:]) / N2 * 0.708] * duration)[0]
-
-    print(sum_detection2[0])
-    print(sum_detection4[0])
-    print(sum_detection6[0])
     # Построение результата второй фильтрации
-    plt.plot(t, signal_detection2, label='Фильтр 2-го порядка', color='cornflowerblue')
-    plt.plot(t, signal_detection4, label='Фильтр 4-го порядка', color='darkorange')
-    plt.plot(t, signal_detection6, label='Фильтр 6-го порядка', color='forestgreen')
-    plt.plot(t, sum_detection2, label='2-ой порог', color='cornflowerblue')
-    plt.plot(t, sum_detection4, label='4-ый порог', color='darkorange')
-    plt.plot(t, sum_detection6, label='6-ой порог', color='forestgreen')
+    plt.plot(t, signal_detection, label='Фильтр 6-го порядка')
+    plt.plot(t, np.full((duration, 1), lower_bound), label='6-ой порог')
     plt.title('Результаты второго переноса частоты')
     plt.ylabel('A, В')
     plt.xlabel('t, с.')
-    plt.legend(loc='lower right')
+    plt.legend()
     plt.show()
 
     # Определение наличия сигнала
-    signal_presence2 = signal_receiver.determine_signal_presence(duration, signal_detection2, lower_bound2)
-    signal_presence4 = [1] * duration
-    signal_presence6 = [1] * duration
-    for i in range(duration):
-        if signal_detection2[i] <= lower_bound2:
-            signal_presence2[i] = 0
-        else:
-            break
-
-    for i in range(duration):
-        if signal_detection4[i] <= lower_bound4:
-            signal_presence4[i] = 0
-        else:
-            break
-
-    for i in range(duration):
-        if signal_detection6[i] <= lower_bound6:
-            signal_presence6[i] = 0
-        else:
-            break
+    signal_presence = signal_receiver.determine_signal_presence(duration, signal_detection, lower_bound)
 
     # Построение графика присутствия сигнала
-    plt.plot(t, signal_presence2, '*', color='cornflowerblue')
-    plt.title('Результаты определения наличия сигнала 2-го порядка')
-    plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
-    plt.xlabel('t, с.')
-    plt.show()
-
-    plt.plot(t, signal_presence4, '*', color='darkorange')
-    plt.title('Результаты определения наличия сигнала 4-го порядка')
-    plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
-    plt.xlabel('t, с.')
-    plt.show()
-
-    plt.plot(t, signal_presence6, '*', color='forestgreen')
+    plt.plot(t, signal_presence, '*', color='forestgreen')
     plt.title('Результаты определения наличия сигнала 6-го порядка')
     plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
     plt.xlabel('t, с.')
     plt.show()
 
     # Определение задержки определителя
-    i = 0
-    while signal_presence2[i] == 0:
-        i += 1
-    print('Задержка усилителя: ' + str(t[i]))
+    signal_receiver.determine_delay(signal_presence, t)
 
-    i = 0
-    while signal_presence4[i] == 0:
-        i += 1
-    print('Задержка усилителя: ' + str(t[i]))
+    # Внесение шума в исходный сигнал
+    noise_signal_10 = []
+    noise_signal_35 = []
+    noise_signal_65 = []
+    for i in range(duration):
+        noise_signal_10.append(gen_signal[i] * (1 + 0.10 * (random.random() * 2 - 1)))
+        noise_signal_35.append(gen_signal[i] * (1 + 0.35 * (random.random() * 2 - 1)))
+        noise_signal_65.append(gen_signal[i] * (1 + 0.65 * (random.random() * 2 - 1)))
 
-    i = 0
-    while signal_presence6[i] == 0:
-        i += 1
-    print('Задержка усилителя: ' + str(t[i]))
+    amp_factor = 1
+
+    abs_list_noised_10 = list(map(lambda x: abs(x), noise_signal_10))
+    abs_list_noised_35 = list(map(lambda x: abs(x), noise_signal_35))
+    abs_list_noised_65 = list(map(lambda x: abs(x), noise_signal_65))
+
+    noise_signal_10 = list(map(lambda x: x / max(abs_list_noised_10), noise_signal_10))
+    noise_signal_35 = list(map(lambda x: x / max(abs_list_noised_35), noise_signal_35))
+    noise_signal_65 = list(map(lambda x: x / max(abs_list_noised_65), noise_signal_65))
+
+    # Построение сгенерированных сигналов
+    plt.plot(t, noise_signal_10, color='cornflowerblue')
+    plt.title('Зашумленный сигнал, 10%')
+    plt.ylabel('А, В')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    plt.plot(t, noise_signal_35, color='darkorange')
+    plt.title('Зашумленный сигнал, 35%')
+    plt.ylabel('А, В')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    plt.plot(t, noise_signal_65, color='forestgreen')
+    plt.title('Зашумленный сигнал, 65%')
+    plt.ylabel('А, В')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    # Дискретизация сигналов
+    disc_noise_signal_10 = signal_receiver.discretize(duration, noise_signal_10)
+    disc_noise_signal_35 = signal_receiver.discretize(duration, noise_signal_35)
+    disc_noise_signal_65 = signal_receiver.discretize(duration, noise_signal_65)
+
+    # Построение результатов дискретизации сигналов
+    plt.plot(t, disc_noise_signal_10, color='cornflowerblue')
+    plt.title('Импульсный сигнал АЦП, зашумление 10%')
+    plt.ylabel('Квантованные значения сигнала')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    plt.plot(t, disc_noise_signal_35, color='darkorange')
+    plt.title('Импульсный сигнал АЦП, зашумление 35%')
+    plt.ylabel('Квантованные значения сигнала')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    plt.plot(t, disc_noise_signal_65, color='forestgreen')
+    plt.title('Импульсный сигнал АЦП, зашумление 65%')
+    plt.ylabel('Квантованные значения сигнала')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    # Перенос частоты несущей, получение исходного сигнала
+    signal_10 = signal_receiver.butter_filter(duration, disc_noise_signal_10, freq=383, coeff=1, filter_n=6)
+    signal_35 = signal_receiver.butter_filter(duration, disc_noise_signal_35, freq=383, coeff=1, filter_n=6)
+    signal_65 = signal_receiver.butter_filter(duration, disc_noise_signal_65, freq=383, coeff=1, filter_n=6)
+
+    # Построение результата первой фильтрации, исходный сигнал
+    plt.plot(t, signal_10, color='cornflowerblue')
+    plt.title('Результат первого переноса частоты')
+    plt.ylabel('А, В')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    plt.plot(t, signal_35, color='darkorange')
+    plt.title('Результат первого переноса частоты')
+    plt.ylabel('А, В')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    plt.plot(t, signal_65, color='forestgreen')
+    plt.title('Результат первого переноса частоты')
+    plt.ylabel('А, В')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    # Второе пропускание сигнала через фильтр Баттерворта
+    signal_detection_10 = signal_receiver.butter_filter(duration, signal_10, freq=14, coeff=8, filter_n=6)
+    signal_detection_35 = signal_receiver.butter_filter(duration, signal_35, freq=14, coeff=8, filter_n=6)
+    signal_detection_65 = signal_receiver.butter_filter(duration, signal_65, freq=14, coeff=8, filter_n=6)
+
+    # Построение результата второй фильтрации
+    plt.plot(t, signal_detection_10, label='Фильтр 6-го порядка', color='cornflowerblue')
+    plt.plot(t, signal_detection_35, label='Фильтр 6-го порядка', color='darkorange')
+    plt.plot(t, signal_detection_65, label='Фильтр 6-го порядка',  color='forestgreen')
+    plt.plot(t, np.full((duration, 1), lower_bound), label='6-ой порог')
+    plt.title('Результаты второго переноса частоты')
+    plt.ylabel('A, В')
+    plt.xlabel('t, с.')
+    plt.legend()
+    plt.show()
+
+    # Определение наличия сигнала
+    signal_presence_10 = signal_receiver.determine_signal_presence(duration, signal_detection_10, lower_bound)
+    signal_presence_35 = signal_receiver.determine_signal_presence(duration, signal_detection_35, lower_bound)
+    signal_presence_65 = signal_receiver.determine_signal_presence(duration, signal_detection_65, lower_bound)
+
+    # Построение графика присутствия сигнала
+    plt.plot(t, signal_presence_10, '*', color='cornflowerblue')
+    plt.title('Результаты определения наличия сигнала 6-го порядка')
+    plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    plt.plot(t, signal_presence_35, '*', color='darkorange')
+    plt.title('Результаты определения наличия сигнала 6-го порядка')
+    plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    plt.plot(t, signal_presence_65, '*', color='forestgreen')
+    plt.title('Результаты определения наличия сигнала 6-го порядка')
+    plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
+    plt.xlabel('t, с.')
+    plt.show()
+
+    # Определение задержки определителя
+    signal_receiver.determine_delay(signal_presence_10, t)
+    signal_receiver.determine_delay(signal_presence_35, t)
+    signal_receiver.determine_delay(signal_presence_65, t)
 
 if __name__ == '__main__':
     main()
