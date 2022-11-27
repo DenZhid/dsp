@@ -72,12 +72,12 @@ class SignalReceiver:
             if signal_detection[i] <= lower_bound:
                 signal_presence[i] = 0
             else:
-                break
+                continue
         return signal_presence
 
     @staticmethod
     def determine_delay(signal_presence, t):
         i = 0
-        while i < len(signal_presence) and signal_presence[i] == 0:
+        while signal_presence[i] == 0:
             i += 1
         print('Задержка усилителя: ' + str(t[i]))

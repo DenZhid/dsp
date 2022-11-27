@@ -98,9 +98,10 @@ def main():
     signal_detection_4 = signal_receiver.butter_filter(duration, signal_4, freq=14, coeff=8, filter_n=6)
     signal_detection_6 = signal_receiver.butter_filter(duration, signal_6, freq=14, coeff=8, filter_n=6)
 
-    lower_bound_2 = 22.577314835461927
-    lower_bound_4 = 22.577314835461927
-    lower_bound_6 = 22.577314835461927
+    N2 = len(signal_detection_2[2080:])
+    lower_bound_2 = ([sum(signal_detection_2[2080:]) / N2 * 0.708] * duration)[0]
+    lower_bound_4 = ([sum(signal_detection_4[2080:]) / N2 * 0.708] * duration)[0]
+    lower_bound_6 = ([sum(signal_detection_6[2080:]) / N2 * 0.708] * duration)[0]
 
     # Построение результата второй фильтрации
     plt.plot(t, np.full((duration, 1), lower_bound_2), label='Пороговое значение для скважности Q = 2')
