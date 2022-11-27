@@ -28,6 +28,19 @@ class SignalReceiver:
             mod_sig.append(0.5 * (1 + self.modulation_factor * sin_m_i) * sin_n_i)
         return t, mod_sig
 
+    def generate_signal_with_duty_cycle(self, Q):
+        sig = list()
+        t = np.arange(0, self.t_end, self.t_d).tolist()
+        T = 1 / self.freq_n
+        Ti = T / Q
+        for i in range(len(t)):
+            phase = t[i] % T
+            if phase < Ti:
+                sig.append(1)
+            else:
+                sig.append(-1)
+        return t, sig
+
     def discretize(self, n, mod_sig):
         disc_mod_sig = []
         for i in range(n):
@@ -51,3 +64,20 @@ class SignalReceiver:
             detection_i = math.sqrt(math.pow(sin_out_butter[i], 2) + math.pow(cos_out_butter[i], 2))
             detection.append(detection_i)
         return detection
+
+    @staticmethod
+    def determine_signal_presence(duration, signal_detection, lower_bound):
+        signal_presence = [1] * duration
+        for i in range(duration):
+            if signal_detection[i] <= lower_bound:
+                signal_presence[i] = 0
+            else:
+                continue
+        return signal_presence
+
+    @staticmethod
+    def determine_delay(signal_presence, t):
+        i = 0
+        while signal_presence[i] == 0:
+            i += 1
+        print('Задержка усилителя: ' + str(t[i]))
