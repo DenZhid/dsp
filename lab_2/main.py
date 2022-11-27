@@ -40,9 +40,9 @@ def main():
     plt.show()
 
     # Перенос частоты несущей, получение исходного сигнала
-    signal2 = signal_receiver.butter_filter(duration, disc_signal, freq=360, coeff=1, filter_n=2)
-    signal4 = signal_receiver.butter_filter(duration, disc_signal, freq=360, coeff=1, filter_n=4)
-    signal6 = signal_receiver.butter_filter(duration, disc_signal, freq=360, coeff=1, filter_n=6)
+    signal2 = signal_receiver.butter_filter(duration, disc_signal, freq=383, coeff=1, filter_n=2)
+    signal4 = signal_receiver.butter_filter(duration, disc_signal, freq=383, coeff=1, filter_n=4)
+    signal6 = signal_receiver.butter_filter(duration, disc_signal, freq=383, coeff=1, filter_n=6)
 
 
     # Построение результата первой фильтрации, исходный сигнал
@@ -52,17 +52,19 @@ def main():
     plt.title('Результат первого переноса частоты')
     plt.ylabel('А, В')
     plt.xlabel('t, с.')
+    plt.legend(loc='lower right')
     plt.show()
 
     # Второе пропускание сигнала через фильтр Баттерворта
-    signal_detection2 = signal_receiver.butter_filter(duration, signal2, freq=10, coeff=8, filter_n=2)
-    signal_detection4 = signal_receiver.butter_filter(duration, signal4, freq=10, coeff=8, filter_n=4)
-    signal_detection6 = signal_receiver.butter_filter(duration, signal6, freq=10, coeff=8, filter_n=6)
+    signal_detection2 = signal_receiver.butter_filter(duration, signal2, freq=14, coeff=8, filter_n=2)
+    signal_detection4 = signal_receiver.butter_filter(duration, signal4, freq=14, coeff=8, filter_n=4)
+    signal_detection6 = signal_receiver.butter_filter(duration, signal6, freq=14, coeff=8, filter_n=6)
 
-    N2 = len(signal_detection2[1743:])
-    sum_detection2 = [sum(signal_detection2[1743:]) / N2 * 0.708] * len(t)
-    sum_detection4 = [sum(signal_detection4[1743:]) / N2 * 0.708] * len(t)
-    sum_detection6 = [sum(signal_detection6[1743:]) / N2 * 0.708] * len(t)
+
+    N2 = len(signal_detection2[2080:])
+    sum_detection2 = [sum(signal_detection2[2080:]) / N2 * 0.708] * duration
+    sum_detection4 = [sum(signal_detection4[2080:]) / N2 * 0.708] * duration
+    sum_detection6 = [sum(signal_detection6[2080:]) / N2 * 0.708] * duration
 
     print(sum_detection2[0])
     print(sum_detection4[0])
