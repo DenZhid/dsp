@@ -22,7 +22,7 @@ def main():
     # Построение сгенерированного сигнала
     plt.plot(t, gen_signal)
     plt.title('Модулированный сигнал')
-    plt.ylabel('А, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -42,7 +42,7 @@ def main():
     # Построение результата первой фильтрации, исходный сигнал
     plt.plot(t, signal)
     plt.title('Результат первого переноса частоты')
-    plt.ylabel('А, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -56,7 +56,7 @@ def main():
     plt.plot(t, signal_detection, label='Фильтр 6-го порядка')
     plt.plot(t, np.full((duration, 1), lower_bound), label='Порог фильтра 6-го порядка')
     plt.title('Результаты второго переноса частоты')
-    plt.ylabel('A, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.legend()
     plt.show()

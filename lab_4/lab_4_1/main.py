@@ -25,7 +25,7 @@ def main():
     # Построение сгенерированного сигнала
     plt.plot(t, gen_signal)
     plt.title('Модулированный сигнал')
-    plt.ylabel('А, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -45,7 +45,7 @@ def main():
     # Построение результата первой фильтрации, исходный сигнал
     plt.plot(t, signal)
     plt.title('Результат первого переноса частоты')
-    plt.ylabel('А, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -59,7 +59,7 @@ def main():
     plt.plot(t, signal_detection, label='Фильтр 6-го порядка')
     plt.plot(t, np.full((duration, 1), lower_bound), label='Порог фильтра 6-го порядка')
     plt.title('Результаты второго переноса частоты')
-    plt.ylabel('A, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.legend()
     plt.show()
@@ -97,19 +97,19 @@ def main():
     # Построение сгенерированных сигналов
     plt.plot(t, noise_signal_10, color='cornflowerblue')
     plt.title('Зашумленный сигнал, 10%')
-    plt.ylabel('А, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.show()
 
     plt.plot(t, noise_signal_35, color='darkorange')
     plt.title('Зашумленный сигнал, 35%')
-    plt.ylabel('А, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.show()
 
     plt.plot(t, noise_signal_65, color='forestgreen')
     plt.title('Зашумленный сигнал, 65%')
-    plt.ylabel('А, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -147,7 +147,7 @@ def main():
     plt.plot(t, signal_35, label='Зашумление 35%', color='darkorange')
     plt.plot(t, signal_65, label='Зашумление 65%', color='forestgreen')
     plt.title('Результат первого переноса частоты')
-    plt.ylabel('А, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -162,7 +162,7 @@ def main():
     plt.plot(t, signal_detection_65, label='Зашумление 65%',  color='forestgreen')
     plt.plot(t, np.full((duration, 1), lower_bound), label='Порог фильтра 6-го порядка')
     plt.title('Результаты второго переноса частоты')
-    plt.ylabel('A, В')
+    plt.ylabel('Амплитуда, В')
     plt.xlabel('Время, с.')
     plt.legend()
     plt.show()
