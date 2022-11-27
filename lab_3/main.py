@@ -78,9 +78,9 @@ def main():
     plt.show()
 
     # Перенос частоты несущей, получение исходного сигнала
-    signal_2 = signal_receiver.butter_filter(duration, disc_signal_2, freq=360, coeff=1, filter_n=6)
-    signal_4 = signal_receiver.butter_filter(duration, disc_signal_4, freq=360, coeff=1, filter_n=6)
-    signal_6 = signal_receiver.butter_filter(duration, disc_signal_6, freq=360, coeff=1, filter_n=6)
+    signal_2 = signal_receiver.butter_filter(duration, disc_signal_2, freq=383, coeff=1, filter_n=6)
+    signal_4 = signal_receiver.butter_filter(duration, disc_signal_4, freq=383, coeff=1, filter_n=6)
+    signal_6 = signal_receiver.butter_filter(duration, disc_signal_6, freq=383, coeff=1, filter_n=6)
 
 
     # Построение результата первой фильтрации, исходный сигнал
@@ -94,18 +94,13 @@ def main():
     plt.show()
 
     # Второе пропускание сигнала через фильтр Баттерворта
-    signal_detection_2 = signal_receiver.butter_filter(duration, signal_2, freq=10, coeff=8, filter_n=6)
-    signal_detection_4 = signal_receiver.butter_filter(duration, signal_4, freq=10, coeff=8, filter_n=6)
-    signal_detection_6 = signal_receiver.butter_filter(duration, signal_6, freq=10, coeff=8, filter_n=6)
+    signal_detection_2 = signal_receiver.butter_filter(duration, signal_2, freq=14, coeff=8, filter_n=6)
+    signal_detection_4 = signal_receiver.butter_filter(duration, signal_4, freq=14, coeff=8, filter_n=6)
+    signal_detection_6 = signal_receiver.butter_filter(duration, signal_6, freq=14, coeff=8, filter_n=6)
 
-    N2 = len(signal_detection_2[1743:])
-    lower_bound_2 = ([sum(signal_detection_2[1743:]) / N2 * 0.708] * len(t))[0]
-    lower_bound_4 = ([sum(signal_detection_4[1743:]) / N2 * 0.708] * len(t))[0]
-    lower_bound_6 = ([sum(signal_detection_6[1743:]) / N2 * 0.708] * len(t))[0]
-
-    print(lower_bound_2)
-    print(lower_bound_4)
-    print(lower_bound_6)
+    lower_bound_2 = 22.577314835461927
+    lower_bound_4 = 22.577314835461927
+    lower_bound_6 = 22.577314835461927
 
     # Построение результата второй фильтрации
     plt.plot(t, np.full((duration, 1), lower_bound_2), label='Пороговое значение для скважности Q = 2')
@@ -142,21 +137,18 @@ def main():
     plt.title('Результаты определения наличия сигнала для скважности Q = 2')
     plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
     plt.xlabel('Время, с.')
-    plt.legend()
     plt.show()
 
     plt.plot(t, signal_presence_4, '*', color='darkorange')
     plt.title('Результаты определения наличия сигнала для скважности Q = 4')
     plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
     plt.xlabel('t, с.')
-    plt.legend()
     plt.show()
 
     plt.plot(t, signal_presence_6, '*', color='forestgreen')
     plt.title('Результаты определения наличия сигнала для скважности Q = 6')
     plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
     plt.xlabel('t, с.')
-    plt.legend()
     plt.show()
 
     # Определение задержки определителя
