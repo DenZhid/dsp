@@ -34,8 +34,8 @@ def main():
 
     # Построение результата дискретизации сигнала
     plt.plot(t, disc_signal)
-    plt.title('Импульсный сигнал АЦП')
-    plt.ylabel('Квантованные значения сигнала')
+    plt.title('Дискретизированный сигнал')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -45,7 +45,7 @@ def main():
     # Построение результата первой фильтрации, исходный сигнал
     plt.plot(t, signal)
     plt.title('Результат первого переноса частоты')
-    plt.ylabel('Амплитуда, В')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -59,7 +59,7 @@ def main():
     plt.plot(t, signal_detection, label='Фильтр 6-го порядка')
     plt.plot(t, np.full((duration, 1), lower_bound), label='Порог фильтра 6-го порядка')
     plt.title('Результаты второго переноса частоты')
-    plt.ylabel('Амплитуда, В')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.legend()
     plt.show()
@@ -120,20 +120,20 @@ def main():
 
     # Построение результатов дискретизации сигналов
     plt.plot(t, disc_noise_signal_10, color='cornflowerblue')
-    plt.title('Импульсный сигнал АЦП, зашумление 10%')
-    plt.ylabel('Квантованные значения сигнала')
+    plt.title('Дискретизированный сигнал, зашумление 10%')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.show()
 
     plt.plot(t, disc_noise_signal_35, color='darkorange')
-    plt.title('Импульсный сигнал АЦП, зашумление 35%')
-    plt.ylabel('Квантованные значения сигнала')
+    plt.title('Дискретизированный сигнал, зашумление 35%')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.show()
 
     plt.plot(t, disc_noise_signal_65, color='forestgreen')
-    plt.title('Импульсный сигнал АЦП, зашумление 65%')
-    plt.ylabel('Квантованные значения сигнала')
+    plt.title('Дискретизированный сигнал, зашумление 65%')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -147,7 +147,7 @@ def main():
     plt.plot(t, signal_35, label='Зашумление 35%', color='darkorange')
     plt.plot(t, signal_65, label='Зашумление 65%', color='forestgreen')
     plt.title('Результат первого переноса частоты')
-    plt.ylabel('Амплитуда, В')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -162,7 +162,7 @@ def main():
     plt.plot(t, signal_detection_65, label='Зашумление 65%',  color='forestgreen')
     plt.plot(t, np.full((duration, 1), lower_bound), label='Порог фильтра 6-го порядка')
     plt.title('Результаты второго переноса частоты')
-    plt.ylabel('Амплитуда, В')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.legend()
     plt.show()

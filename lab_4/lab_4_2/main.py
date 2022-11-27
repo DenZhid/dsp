@@ -31,8 +31,8 @@ def main():
 
     # Построение результата дискретизации сигнала
     plt.plot(t, disc_signal)
-    plt.title('Импульсный сигнал АЦП')
-    plt.ylabel('Квантованные значения сигнала')
+    plt.title('Дискретизированный сигнал')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -42,7 +42,7 @@ def main():
     # Построение результата первой фильтрации, исходный сигнал
     plt.plot(t, signal)
     plt.title('Результат первого переноса частоты')
-    plt.ylabel('Амплитуда, В')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.show()
 
@@ -56,7 +56,7 @@ def main():
     plt.plot(t, signal_detection, label='Фильтр 6-го порядка')
     plt.plot(t, np.full((duration, 1), lower_bound), label='Порог фильтра 6-го порядка')
     plt.title('Результаты второго переноса частоты')
-    plt.ylabel('Амплитуда, В')
+    plt.ylabel('Уровень сигнала')
     plt.xlabel('Время, с.')
     plt.legend()
     plt.show()
