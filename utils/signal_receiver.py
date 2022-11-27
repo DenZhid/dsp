@@ -41,6 +41,21 @@ class SignalReceiver:
                 sig.append(-1)
         return t, sig
 
+    def generate_special_signal(self):
+        mod_sig = []
+        t = np.arange(0, self.t_end, self.t_d).tolist()
+        n = len(t)
+        for i in range(n):
+            sin_m_i = math.sin(2 * math.pi * self.freq_m * t[i] + self.phase_m)
+            sin_n_i = math.sin(2 * math.pi * self.freq_n * t[i] + self.phase_n)
+            mod_sig.append(0.5 * (1 + self.modulation_factor * sin_m_i) * sin_n_i)
+        for i in range(n):
+            if 8 / self.freq_m < t[i] < 12 / self.freq_m:
+                sin_m_i = math.sin(2 * math.pi * (self.freq_m + 0.5 * self.freq_m) * t[i] + self.phase_m)
+                sin_n_i = math.sin(2 * math.pi * self.freq_n * t[i] + self.phase_n)
+                mod_sig[i] = 0.5 * (1 + self.modulation_factor * sin_m_i) * sin_n_i
+        return t, mod_sig
+
     def discretize(self, n, mod_sig):
         disc_mod_sig = []
         for i in range(n):

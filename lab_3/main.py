@@ -82,7 +82,6 @@ def main():
     signal_4 = signal_receiver.butter_filter(duration, disc_signal_4, freq=383, coeff=1, filter_n=6)
     signal_6 = signal_receiver.butter_filter(duration, disc_signal_6, freq=383, coeff=1, filter_n=6)
 
-
     # Построение результата первой фильтрации, исходный сигнал
     plt.plot(t, signal_2, label='Скважность Q = 2', color='cornflowerblue')
     plt.plot(t, signal_4, label='Скважность Q = 4', color='darkorange')
