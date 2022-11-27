@@ -23,7 +23,7 @@ def main():
     plt.plot(t, gen_signal)
     plt.title('Модулированный сигнал')
     plt.ylabel('А, В')
-    plt.xlabel('t, с.')
+    plt.xlabel('Время, с.')
     plt.show()
 
     # Дискретизация сигнала
@@ -33,7 +33,7 @@ def main():
     plt.plot(t, disc_signal)
     plt.title('Импульсный сигнал АЦП')
     plt.ylabel('Квантованные значения сигнала')
-    plt.xlabel('t, с.')
+    plt.xlabel('Время, с.')
     plt.show()
 
     # Перенос частоты несущей, получение исходного сигнала
@@ -43,7 +43,7 @@ def main():
     plt.plot(t, signal)
     plt.title('Результат первого переноса частоты')
     plt.ylabel('А, В')
-    plt.xlabel('t, с.')
+    plt.xlabel('Время, с.')
     plt.show()
 
     # Второе пропускание сигнала через фильтр Баттерворта
@@ -54,10 +54,10 @@ def main():
 
     # Построение результата второй фильтрации
     plt.plot(t, signal_detection, label='Фильтр 6-го порядка')
-    plt.plot(t, np.full((duration, 1), lower_bound), label='6-ой порог')
+    plt.plot(t, np.full((duration, 1), lower_bound), label='Порог фильтра 6-го порядка')
     plt.title('Результаты второго переноса частоты')
     plt.ylabel('A, В')
-    plt.xlabel('t, с.')
+    plt.xlabel('Время, с.')
     plt.legend()
     plt.show()
 
@@ -68,7 +68,7 @@ def main():
     plt.plot(t, signal_presence, '*')
     plt.title('Результаты определения наличия сигнала 6-го порядка')
     plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
-    plt.xlabel('t, с.')
+    plt.xlabel('Время, с.')
     plt.show()
 
     # Определение задержки определителя
