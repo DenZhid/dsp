@@ -131,7 +131,7 @@ def main():
     # Определение наличия сигнала
     signal_presence_2 = signal_receiver.determine_signal_presence(duration, signal_detection_2, lower_bound_2)
     signal_presence_4 = signal_receiver.determine_signal_presence(duration, signal_detection_4, lower_bound_4)
-    signal_presence_6 = signal_receiver.determine_signal_presence(duration, signal_detection_2, lower_bound_6)
+    signal_presence_6 = signal_receiver.determine_signal_presence(duration, signal_detection_6, lower_bound_6)
 
     # Построение графика присутствия сигнала
     plt.plot(t, signal_presence_2, '*', color='cornflowerblue')
