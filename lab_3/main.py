@@ -97,13 +97,10 @@ def main():
     signal_detection_4 = signal_receiver.butter_filter(duration, signal_4, freq=14, coeff=8, filter_n=6)
     signal_detection_6 = signal_receiver.butter_filter(duration, signal_6, freq=14, coeff=8, filter_n=6)
 
-    N2 = len(signal_detection_2[2080:])
-    lower_bound_2 = ([sum(signal_detection_2[2080:]) / N2 * 0.708] * duration)[0]
-    lower_bound_4 = ([sum(signal_detection_4[2080:]) / N2 * 0.708] * duration)[0]
-    lower_bound_6 = ([sum(signal_detection_6[2080:]) / N2 * 0.708] * duration)[0]
+    lower_bound = 5.678052990467647 # Из лабораторной №2
 
     # Построение результата второй фильтрации
-    plt.plot(t, np.full((duration, 1), lower_bound_2), label='Пороговое значение для скважности Q = 2')
+    plt.plot(t, np.full((duration, 1), lower_bound), label='Пороговое значение для скважности Q = 2')
     plt.plot(t, signal_detection_2, label='Скважность Q = 2', color='cornflowerblue')
     plt.title("Результат второй фильтрации")
     plt.ylabel("Уровень сигнала")
@@ -111,7 +108,7 @@ def main():
     plt.legend()
     plt.show()
 
-    plt.plot(t, np.full((duration, 1), lower_bound_4), label='Пороговое значение для скважности Q = 4')
+    plt.plot(t, np.full((duration, 1), lower_bound), label='Пороговое значение для скважности Q = 4')
     plt.plot(t, signal_detection_4, label='Скважность Q = 4', color='darkorange')
     plt.title("Результат второй фильтрации")
     plt.ylabel("Уровень сигнала")
@@ -119,7 +116,7 @@ def main():
     plt.legend()
     plt.show()
 
-    plt.plot(t, np.full((duration, 1), lower_bound_6), label='Пороговое значение для скважности Q = 6')
+    plt.plot(t, np.full((duration, 1), lower_bound), label='Пороговое значение для скважности Q = 6')
     plt.plot(t, signal_detection_6, label='Скважность Q = 6', color='forestgreen')
     plt.title("Результат второй фильтрации")
     plt.ylabel("Уровень сигнала")
@@ -128,9 +125,9 @@ def main():
     plt.show()
 
     # Определение наличия сигнала
-    signal_presence_2 = signal_receiver.determine_signal_presence(duration, signal_detection_2, lower_bound_2)
-    signal_presence_4 = signal_receiver.determine_signal_presence(duration, signal_detection_4, lower_bound_4)
-    signal_presence_6 = signal_receiver.determine_signal_presence(duration, signal_detection_6, lower_bound_6)
+    signal_presence_2 = signal_receiver.determine_signal_presence(duration, signal_detection_2, lower_bound)
+    signal_presence_4 = signal_receiver.determine_signal_presence(duration, signal_detection_4, lower_bound)
+    signal_presence_6 = signal_receiver.determine_signal_presence(duration, signal_detection_6, lower_bound)
 
     # Построение графика присутствия сигнала
     plt.plot(t, signal_presence_2, '*', color='cornflowerblue')
