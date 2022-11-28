@@ -24,8 +24,8 @@ def main():
     # Построение сгенерированного сигнала
     plt.plot(t, gen_signal)
     plt.title('Модулированный сигнал')
-    plt.ylabel('А, В')
-    plt.xlabel('t, с.')
+    plt.ylabel('Амплитуда, В')
+    plt.xlabel('Время, с.')
     plt.show()
 
     # Дискретизация сигнала
@@ -33,9 +33,9 @@ def main():
 
     # Построение результата дискретизации сигнала
     plt.plot(t, disc_signal)
-    plt.title('Импульсный сигнал АЦП')
-    plt.ylabel('Квантованные значения сигнала')
-    plt.xlabel('t, с.')
+    plt.title('Дискретизированный сигнал')
+    plt.ylabel('Уровень сигнала')
+    plt.xlabel('Время, с.')
     plt.show()
 
     # Перенос частоты несущей, получение исходного сигнала
@@ -44,8 +44,8 @@ def main():
     # Построение результата первой фильтрации, исходный сигнал
     plt.plot(t, signal)
     plt.title('Результат первого переноса частоты')
-    plt.ylabel('А, В')
-    plt.xlabel('t, с.')
+    plt.ylabel('Уровень сигнала')
+    plt.xlabel('Время, с.')
     plt.show()
 
     # Второе пропускание сигнала через фильтр Баттерворта
@@ -54,31 +54,23 @@ def main():
     # Построение результата второй фильтрации
     plt.plot(t, signal_detection)
     plt.title('Результаты второго переноса частоты')
-    plt.ylabel('A, В')
-    plt.xlabel('t, с.')
+    plt.ylabel('Уровень сигнала')
+    plt.xlabel('Время, с.')
     plt.show()
 
     # Определение наличия сигнала
     lower_bound = 10
-    signal_presence = [1] * duration
-    for i in range(duration):
-        if signal_detection[i] <= lower_bound:
-            signal_presence[i] = 0
-        else:
-            break
+    signal_presence = signal_receiver.determine_signal_presence(duration, signal_detection, lower_bound)
 
     # Построение графика присутствия сигнала
     plt.plot(t, signal_presence, '*')
     plt.title('Результаты определения наличия сигнала')
     plt.ylabel('Наличие сигнала (0 - нет, 1 - есть')
-    plt.xlabel('t, с.')
+    plt.xlabel('Время, с.')
     plt.show()
 
     # Определение задержки определителя
-    i = 1
-    while signal_presence[i] == 0:
-        i += 1
-    print('Задержка усилителя: ' + str(t[i]))
+    signal_receiver.determine_delay(signal_presence, t)
 
     # Зашумление сигнала
     fn_mod = 510
@@ -91,8 +83,8 @@ def main():
     # Построение зашумленного сигнала
     plt.plot(t, mod_signal)
     plt.title('Зашумленный сигнал')
-    plt.xlabel('t, сек')
-    plt.ylabel('A, В')
+    plt.xlabel('Время, сек')
+    plt.ylabel('Амплитуда, В')
     plt.axis([0, 1.6, -1.5, 1.5])
     plt.show()
 
